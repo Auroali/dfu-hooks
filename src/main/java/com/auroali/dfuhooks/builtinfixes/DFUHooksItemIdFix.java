@@ -18,8 +18,8 @@ public class DFUHooksItemIdFix extends DataFix {
     String modid;
     Map<String, String> idMap;
 
-    public DFUHooksItemIdFix(Schema outputSchema, String modid, Map<String, String> idMap) {
-        super(outputSchema, false);
+    public DFUHooksItemIdFix(Schema outputSchema, boolean changesType, String modid, Map<String, String> idMap) {
+        super(outputSchema, changesType);
         this.modid = modid;
         this.idMap = idMap;
     }

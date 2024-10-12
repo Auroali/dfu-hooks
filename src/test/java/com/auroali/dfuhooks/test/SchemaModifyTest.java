@@ -14,6 +14,7 @@ public class SchemaModifyTest implements DFUHooksSchemaHook {
             // adds a fixer that replaces all diamonds with emeralds
             builder.addFixer(new DFUHooksItemIdFix(
                     schema,
+                    false,
                     "dfuhooks-test",
                     ImmutableMap
                             .<String, String>builder()
