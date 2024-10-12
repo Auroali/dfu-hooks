@@ -8,8 +8,7 @@
 		"Auroali"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"sources": "https://github.com/Auroali/dfu-hooks"
 	},
 	"license": "MIT",
 	"icon": "assets/dfuhooks/icon.png",
