@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "dfuhooks",
+	"version": "${version}",
+	"name": "DFU Hooks",
+	"description": "Mod that provides hooks into certain parts of Minecraft's DataFixerUpper fixes",
+	"authors": [
+		"Auroali"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/dfuhooks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+	},
+	"accessWidener": "dfuhooks.accesswidener",
+	"mixins": [
+		"dfuhooks.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.5",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

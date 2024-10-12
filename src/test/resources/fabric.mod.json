@@ -1,0 +1,34 @@
+{
+	"schemaVersion": 1,
+	"id": "dfuhooks-testmod",
+	"version": "${version}",
+	"name": "DFU Hooks Test Mod",
+	"description": "Test mod for DFU Hooks",
+	"authors": [
+		"Auroali"
+	],
+	"contact": {
+	},
+	"license": "MIT",
+	"icon": "assets/dfuhooks/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"dfuhooks-item-components": [
+			"com.auroali.dfuhooks.test.ItemComponentizationTest"
+		],
+		"dfuhooks-modify-schemas": [
+			"com.auroali.dfuhooks.test.SchemaModifyTest"
+		]
+	},
+	"mixins": [
+	],
+	"depends": {
+		"fabricloader": ">=0.16.5",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

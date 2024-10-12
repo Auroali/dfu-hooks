@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "package": "com.auroali.dfuhooks.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "DataFixerBuilderAccessor",
+    "ItemStackComponentizationFixMixin",
+    "SchemasMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}
