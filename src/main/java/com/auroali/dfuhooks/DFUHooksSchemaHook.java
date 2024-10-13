@@ -4,7 +4,6 @@ import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
 import it.unimi.dsi.fastutil.Function;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import java.util.Optional;
 

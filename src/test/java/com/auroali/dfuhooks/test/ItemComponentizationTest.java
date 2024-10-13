@@ -2,8 +2,6 @@ package com.auroali.dfuhooks.test;
 
 import com.auroali.dfuhooks.DFUHooksItemComponentHook;
 import com.mojang.serialization.Dynamic;
-import net.minecraft.component.ComponentType;
-import net.minecraft.component.DataComponentTypes;
 import net.minecraft.datafixer.fix.ItemStackComponentizationFix;
 
 public class ItemComponentizationTest extends DFUHooksItemComponentHook {
