@@ -1,4 +1,3 @@
 accessWidener v2 named
-transitive-accessible method net/minecraft/datafixer/Schemas replacingRaw (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/datafixer/Schemas replacing (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/datafixer/Schemas replacing (Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/UnaryOperator;
