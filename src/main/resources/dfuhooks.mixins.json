@@ -5,6 +5,8 @@
   "mixins": [
     "DataFixerBuilderAccessor",
     "ItemStackComponentizationFixMixin",
+    "Schema99Mixin",
+    "SchemaMixin",
     "SchemasMixin"
   ],
   "injectors": {
