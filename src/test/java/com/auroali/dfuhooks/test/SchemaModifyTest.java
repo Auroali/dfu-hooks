@@ -1,18 +1,35 @@
 package com.auroali.dfuhooks.test;
 
 import com.auroali.dfuhooks.DFUHooksSchemaHook;
+import com.auroali.dfuhooks.SchemaRegistry;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.datafixers.DSL;
 import com.mojang.datafixers.DataFixerBuilder;
-import com.mojang.datafixers.schemas.Schema;
-import com.mojang.datafixers.types.templates.TypeTemplate;
 import net.minecraft.datafixer.Schemas;
+import net.minecraft.datafixer.TypeReferences;
 import net.minecraft.datafixer.fix.BlockNameFix;
 import net.minecraft.datafixer.fix.ItemNameFix;
-
-import java.util.Map;
-import java.util.function.Supplier;
+import net.minecraft.datafixer.schema.Schema100;
 
 public class SchemaModifyTest implements DFUHooksSchemaHook {
+    @Override
+    public void register(SchemaRegistry registry) {
+        registry.registerEntitySimple(3818, 5, "dfuhooks:test_simple");
+        registry.registerBlockEntitySimple(3818, 5, "dfuhooks:test_be_simple");
+        registry.registerEntity(
+                3818,
+                5,
+                "dfuhooks:test",
+                schema -> () -> Schema100.targetItems(schema)
+        );
+        registry.registerBlockEntity(
+                3818,
+                5,
+                "dfuhooks:test_be",
+                schema -> () -> DSL.optionalFields("Items", DSL.list(TypeReferences.ITEM_STACK.in(schema)))
+        );
+    }
+
     @Override
     public void modifySchemas(DataFixerBuilder builder, SchemaGetter schemas) {
         // get the schema for version 3818 subversion 5
@@ -35,16 +52,6 @@ public class SchemaModifyTest implements DFUHooksSchemaHook {
                     Schemas.replacing("minecraft:diamond_block", "minecraft:emerald_block")
             ));
         });
-
-    }
-
-    @Override
-    public void registerEntities(int versionKey, Schema schema, Map<String, Supplier<TypeTemplate>> map) {
-
-    }
-
-    @Override
-    public void registerBlockEntities(int versionKey, Schema schema, Map<String, Supplier<TypeTemplate>> map) {
 
     }
 }

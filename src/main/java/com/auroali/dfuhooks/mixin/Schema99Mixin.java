@@ -1,10 +1,10 @@
 package com.auroali.dfuhooks.mixin;
 
-import com.auroali.dfuhooks.DFUHooksSchemaHook;
+import com.auroali.dfuhooks.DFUHooks;
+import com.auroali.dfuhooks.SchemaRegistry;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.templates.TypeTemplate;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.datafixer.schema.Schema99;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,20 +22,16 @@ public abstract class Schema99Mixin extends Schema {
 
     @ModifyReturnValue(method = "registerEntities", at = @At("RETURN"), remap = false)
     public Map<String, Supplier<TypeTemplate>> dfuhooks$entityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
-        FabricLoader.getInstance().invokeEntrypoints(
-                "dfuhooks-modify-schemas",
-                DFUHooksSchemaHook.class,
-                hook -> hook.registerEntities(getVersionKey(), this, original)
-        );
+        SchemaRegistry.TypeRegistryBuilder builder = DFUHooks.SCHEMA_REGISTRY.getEntities(this.getVersionKey());
+        if(builder != null)
+            builder.registerAll(this, original);
         return original;
     }
     @ModifyReturnValue(method = "registerBlockEntities", at = @At("RETURN"), remap = false)
     public Map<String, Supplier<TypeTemplate>> dfuhooks$blockEntityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
-        FabricLoader.getInstance().invokeEntrypoints(
-                "dfuhooks-modify-schemas",
-                DFUHooksSchemaHook.class,
-                hook -> hook.registerBlockEntities(getVersionKey(), this, original)
-        );
+        SchemaRegistry.TypeRegistryBuilder builder = DFUHooks.SCHEMA_REGISTRY.getBlockEntities(this.getVersionKey());
+        if(builder != null)
+            builder.registerAll(this, original);
         return original;
     }
 }
