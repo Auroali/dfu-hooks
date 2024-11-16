@@ -3,6 +3,7 @@ transitive-accessible class net/minecraft/datafixer/fix/ItemStackComponentizatio
 transitive-accessible method net/minecraft/datafixer/Schemas replacingRaw (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/datafixer/Schemas replacing (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/datafixer/Schemas replacing (Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/UnaryOperator;
+transitive-accessible method net/minecraft/datafixer/schema/Schema100 targetItems (Lcom/mojang/datafixers/schemas/Schema;)Lcom/mojang/datafixers/types/templates/TypeTemplate;
 
 accessible method net/minecraft/datafixer/fix/ItemStackComponentizationFix fixAttributeModifiers (Lnet/minecraft/datafixer/fix/ItemStackComponentizationFix$StackData;Lcom/mojang/serialization/Dynamic;I)V
 accessible method net/minecraft/datafixer/fix/ItemStackComponentizationFix fixEnchantments (Lnet/minecraft/datafixer/fix/ItemStackComponentizationFix$StackData;Lcom/mojang/serialization/Dynamic;Ljava/lang/String;Ljava/lang/String;Z)V
