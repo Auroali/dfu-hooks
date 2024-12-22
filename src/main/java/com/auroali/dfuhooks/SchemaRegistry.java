@@ -9,6 +9,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -195,7 +196,7 @@ public class SchemaRegistry {
     }
 
     public static class TypeReferenceRegistry {
-        List<Entry> entries;
+        List<Entry> entries = new ArrayList<>();
 
         public void register(boolean recursive, DSL.TypeReference reference, TypeTemplateSupplier typeTemplate) {
             new Entry(recursive, reference, typeTemplate);
