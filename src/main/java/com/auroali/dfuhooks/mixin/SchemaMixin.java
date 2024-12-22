@@ -8,6 +8,8 @@ import com.mojang.datafixers.types.templates.TypeTemplate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -29,5 +31,12 @@ public abstract class SchemaMixin {
         if(builder != null)
             builder.registerAll((Schema)(Object)this, original);
         return original;
+    }
+
+    @Inject(method = "registerTypes", at = @At("RETURN"))
+    public void dfuhooks$registerTypes(Schema schema, Map<String, Supplier<TypeTemplate>> entityTypes, Map<String, Supplier<TypeTemplate>> blockEntityTypes, CallbackInfo ci) {
+        SchemaRegistry.TypeReferenceRegistry registry = DFUHooks.SCHEMA_REGISTRY.getTypeReferenceRegistry(this.getVersionKey());
+        if(registry != null)
+            registry.applyTo(schema);
     }
 }
