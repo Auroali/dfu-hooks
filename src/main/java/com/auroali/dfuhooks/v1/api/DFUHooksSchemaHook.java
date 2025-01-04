@@ -1,4 +1,4 @@
-package com.auroali.dfuhooks;
+package com.auroali.dfuhooks.v1.api;
 
 import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.DataFixerBuilder;

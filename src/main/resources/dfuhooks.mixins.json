@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.auroali.dfuhooks.mixin",
+  "package": "com.auroali.dfuhooks.v1.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
     "DataFixerBuilderAccessor",

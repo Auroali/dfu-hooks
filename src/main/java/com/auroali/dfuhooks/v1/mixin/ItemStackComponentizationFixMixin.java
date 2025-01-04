@@ -1,6 +1,6 @@
-package com.auroali.dfuhooks.mixin;
+package com.auroali.dfuhooks.v1.mixin;
 
-import com.auroali.dfuhooks.DFUHooksItemComponentHook;
+import com.auroali.dfuhooks.v1.api.DFUHooksItemComponentHook;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.loader.api.FabricLoader;

@@ -1,7 +1,7 @@
 package com.auroali.dfuhooks.test;
 
-import com.auroali.dfuhooks.DFUHooksSchemaHook;
-import com.auroali.dfuhooks.SchemaRegistry;
+import com.auroali.dfuhooks.v1.api.DFUHooksSchemaHook;
+import com.auroali.dfuhooks.v1.api.SchemaRegistry;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.DSL;
 import com.mojang.datafixers.DataFixerBuilder;

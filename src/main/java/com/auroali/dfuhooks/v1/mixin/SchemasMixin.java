@@ -1,8 +1,8 @@
-package com.auroali.dfuhooks.mixin;
+package com.auroali.dfuhooks.v1.mixin;
 
-import com.auroali.dfuhooks.DFUHooks;
-import com.auroali.dfuhooks.DFUHooksSchemaHook;
-import com.auroali.dfuhooks.SchemaRegistry;
+import com.auroali.dfuhooks.v1.api.DFUHooks;
+import com.auroali.dfuhooks.v1.api.DFUHooksSchemaHook;
+import com.auroali.dfuhooks.v1.impl.SchemaRegistryImpl;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
 import it.unimi.dsi.fastutil.ints.Int2ObjectSortedMap;
@@ -18,16 +18,16 @@ public abstract class SchemasMixin {
 
     @Inject(method = "build", at = @At("HEAD"))
     private static void dfuhooks$initSchemaRegistry(DataFixerBuilder builder, CallbackInfo ci) {
-        DFUHooks.SCHEMA_REGISTRY = new SchemaRegistry();
-        FabricLoader.getInstance().invokeEntrypoints("dfuhooks-modify-schemas", DFUHooksSchemaHook.class, hook -> hook.register(DFUHooks.SCHEMA_REGISTRY));
+        SchemaRegistryImpl.SCHEMA_REGISTRY = new SchemaRegistryImpl();
+        FabricLoader.getInstance().invokeEntrypoints("dfuhooks-modify-schemas", DFUHooksSchemaHook.class, hook -> hook.register(SchemaRegistryImpl.SCHEMA_REGISTRY));
     }
 
     @Inject(method = "build", at = @At("TAIL"))
     private static void dfuhooks$registerAndModifySchemas(DataFixerBuilder builder, CallbackInfo ci) {
         // print a message if we failed to register anything
-        DFUHooks.SCHEMA_REGISTRY.validate();
+        SchemaRegistryImpl.SCHEMA_REGISTRY.validate();
         // we don't need the schema registry anymore
-        DFUHooks.SCHEMA_REGISTRY = null;
+        SchemaRegistryImpl.SCHEMA_REGISTRY = null;
 
         Int2ObjectSortedMap<Schema> schemas = ((DataFixerBuilderAccessor)builder).getSchemas();
         FabricLoader.getInstance().invokeEntrypoints(

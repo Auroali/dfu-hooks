@@ -1,4 +1,4 @@
-package com.auroali.dfuhooks.mixin;
+package com.auroali.dfuhooks.v1.mixin;
 
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
