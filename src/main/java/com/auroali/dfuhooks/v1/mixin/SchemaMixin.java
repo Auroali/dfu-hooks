@@ -1,7 +1,7 @@
-package com.auroali.dfuhooks.mixin;
+package com.auroali.dfuhooks.v1.mixin;
 
-import com.auroali.dfuhooks.DFUHooks;
-import com.auroali.dfuhooks.SchemaRegistry;
+import com.auroali.dfuhooks.v1.api.DFUHooks;
+import com.auroali.dfuhooks.v1.impl.SchemaRegistryImpl;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.templates.TypeTemplate;
@@ -20,14 +20,14 @@ public abstract class SchemaMixin {
 
     @ModifyReturnValue(method = "registerEntities", at = @At("RETURN"))
     public Map<String, Supplier<TypeTemplate>> dfuhooks$entityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
-        SchemaRegistry.TypeRegistryBuilder builder = DFUHooks.SCHEMA_REGISTRY.getEntities(this.getVersionKey());
+        SchemaRegistryImpl.TypeRegistryBuilder builder = SchemaRegistryImpl.SCHEMA_REGISTRY.getEntities(this.getVersionKey());
         if(builder != null)
             builder.registerAll((Schema)(Object)this, original);
         return original;
     }
     @ModifyReturnValue(method = "registerBlockEntities", at = @At("RETURN"))
     public Map<String, Supplier<TypeTemplate>> dfuhooks$blockEntityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
-        SchemaRegistry.TypeRegistryBuilder builder = DFUHooks.SCHEMA_REGISTRY.getBlockEntities(this.getVersionKey());
+        SchemaRegistryImpl.TypeRegistryBuilder builder = SchemaRegistryImpl.SCHEMA_REGISTRY.getBlockEntities(this.getVersionKey());
         if(builder != null)
             builder.registerAll((Schema)(Object)this, original);
         return original;
@@ -35,7 +35,7 @@ public abstract class SchemaMixin {
 
     @Inject(method = "registerTypes", at = @At("RETURN"))
     public void dfuhooks$registerTypes(Schema schema, Map<String, Supplier<TypeTemplate>> entityTypes, Map<String, Supplier<TypeTemplate>> blockEntityTypes, CallbackInfo ci) {
-        SchemaRegistry.TypeReferenceRegistry registry = DFUHooks.SCHEMA_REGISTRY.getTypeReferenceRegistry(this.getVersionKey());
+        SchemaRegistryImpl.TypeReferenceRegistry registry = SchemaRegistryImpl.SCHEMA_REGISTRY.getTypeReferenceRegistry(this.getVersionKey());
         if(registry != null)
             registry.applyTo(schema);
     }
