@@ -14,17 +14,16 @@ import net.minecraft.datafixer.schema.Schema100;
 public class SchemaModifyTest implements DFUHooksSchemaHook {
     @Override
     public void register(SchemaRegistry registry) {
-        registry.registerEntitySimple(3818, 5, "dfuhooks:test_simple");
-        registry.registerBlockEntitySimple(3818, 5, "dfuhooks:test_be_simple");
+        registry.registerEntitySimple(3459,"dfuhooks:test_simple");
+        registry.registerBlockEntitySimple(3459,"dfuhooks:test_be_simple");
         registry.registerEntity(
-                3818,
-                5,
+                3459,
                 "dfuhooks:test",
                 schema -> () -> Schema100.targetItems(schema)
         );
         registry.registerBlockEntity(
-                3818,
-                5,
+                3459,
+                0,
                 "dfuhooks:test_be",
                 schema -> () -> DSL.optionalFields("Items", DSL.list(TypeReferences.ITEM_STACK.in(schema)))
         );
@@ -34,7 +33,7 @@ public class SchemaModifyTest implements DFUHooksSchemaHook {
     public void modifySchemas(DataFixerBuilder builder, SchemaGetter schemas) {
         // get the schema for version 3818 subversion 5
         // this is the schema used for the item stack componentization fix
-        schemas.fromVersion(3818, 5).ifPresent(schema -> {
+        schemas.fromVersion(3459).ifPresent(schema -> {
             // adds a fixer that replaces all diamonds with emeralds and diamond blocks with emerald blocks
             builder.addFixer(ItemNameFix.create(
                     schema,
