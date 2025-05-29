@@ -10,7 +10,7 @@
 	"contact": {
 		"sources": "https://github.com/Auroali/dfu-hooks"
 	},
-	"license": "MIT",
+	"license": "GNU LGPLv3",
 	"icon": "assets/dfuhooks/icon.png",
 	"environment": "*",
 	"entrypoints": {
