@@ -24,6 +24,8 @@ public abstract class Schema99Mixin extends Schema {
 
     @ModifyReturnValue(method = "registerEntities", at = @At("RETURN"), remap = false)
     public Map<String, Supplier<TypeTemplate>> dfuhooks$entityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
+        if(SchemaRegistryImpl.SCHEMA_REGISTRY == null)
+            return original;
         SchemaRegistryImpl.TypeRegistryBuilder builder = SchemaRegistryImpl.SCHEMA_REGISTRY.getEntities(this.getVersionKey());
         if(builder != null)
             builder.registerAll(this, original);
@@ -31,6 +33,8 @@ public abstract class Schema99Mixin extends Schema {
     }
     @ModifyReturnValue(method = "registerBlockEntities", at = @At("RETURN"), remap = false)
     public Map<String, Supplier<TypeTemplate>> dfuhooks$blockEntityRegistryHook(Map<String, Supplier<TypeTemplate>> original) {
+        if(SchemaRegistryImpl.SCHEMA_REGISTRY == null)
+            return original;
         SchemaRegistryImpl.TypeRegistryBuilder builder = SchemaRegistryImpl.SCHEMA_REGISTRY.getBlockEntities(this.getVersionKey());
         if(builder != null)
             builder.registerAll(this, original);
@@ -39,6 +43,8 @@ public abstract class Schema99Mixin extends Schema {
 
     @Inject(method = "registerTypes", at = @At("RETURN"))
     public void dfuhooks$registerTypes(Schema schema, Map<String, Supplier<TypeTemplate>> entityTypes, Map<String, Supplier<TypeTemplate>> blockEntityTypes, CallbackInfo ci) {
+        if(SchemaRegistryImpl.SCHEMA_REGISTRY == null)
+            return;
         SchemaRegistryImpl.TypeReferenceRegistry registry = SchemaRegistryImpl.SCHEMA_REGISTRY.getTypeReferenceRegistry(this.getVersionKey());
         if(registry != null)
             registry.applyTo(schema);
