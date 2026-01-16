@@ -1,33 +1,36 @@
 {
-	"schemaVersion": 1,
-	"id": "dfuhooks",
-	"version": "${version}",
-	"name": "DFU Hooks",
-	"description": "Mod that provides hooks into certain parts of Minecraft's DataFixerUpper fixes",
-	"authors": [
-		"Auroali"
-	],
-	"contact": {
-		"sources": "https://github.com/Auroali/dfu-hooks"
-	},
-	"license": "GNU LGPLv3",
-	"icon": "assets/dfuhooks/icon.png",
-	"environment": "*",
-	"entrypoints": {
-	},
-	"accessWidener": "dfuhooks.accesswidener",
-	"mixins": [
-		"dfuhooks.mixins.json"
-	],
-	"depends": {
-		"fabricloader": ">=0.16.5",
-		"minecraft": "~1.21.1",
-		"java": ">=21",
-		"fabric-api": "*"
-	},
-	"custom": {
-		"modmenu": {
-			"badges": [ "library" ]
-		}
-	}
+  "schemaVersion": 1,
+  "id": "dfuhooks",
+  "version": "${version}",
+  "name": "DFU Hooks",
+  "description": "Mod that provides hooks into certain parts of Minecraft's DataFixerUpper fixes",
+  "authors": [
+    "Auroali"
+  ],
+  "contact": {
+    "sources": "https://github.com/Auroali/dfu-hooks",
+    "issues": "https://github.com/Auroali/dfu-hooks/issues"
+  },
+  "license": "GNU LGPLv3",
+  "icon": "assets/dfuhooks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+  },
+  "accessWidener": "dfuhooksv2.classtweaker",
+  "mixins": [
+    "dfuhooksv2.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.4",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ]
+    }
+  }
 }

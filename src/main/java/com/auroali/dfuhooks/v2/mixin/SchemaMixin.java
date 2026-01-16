@@ -1,0 +1,45 @@
+package com.auroali.dfuhooks.v2.mixin;
+
+import com.auroali.dfuhooks.v2.api.SchemaBuilder;
+import com.auroali.dfuhooks.v2.impl.DFUHooks;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.datafixers.schemas.Schema;
+import com.mojang.datafixers.types.templates.TypeTemplate;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
+@Mixin(Schema.class)
+public class SchemaMixin {
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/schemas/Schema;registerEntities(Lcom/mojang/datafixers/schemas/Schema;)Ljava/util/Map;"))
+    public Map<String, Supplier<TypeTemplate>> dfuhooks$registerEntities(Schema instance, Schema schema, Operation<Map<String, Supplier<TypeTemplate>>> original) {
+        HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
+        Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
+        if (builders != null && builders.containsKey(instance.getVersionKey())) {
+            types.putAll(
+              builders
+                .get(instance.getVersionKey())
+                .buildEntities()
+            );
+        }
+        return types;
+    }
+
+    @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/schemas/Schema;registerBlockEntities(Lcom/mojang/datafixers/schemas/Schema;)Ljava/util/Map;"))
+    public Map<String, Supplier<TypeTemplate>> dfuhooks$registerBlockEntities(Schema instance, Schema schema, Operation<Map<String, Supplier<TypeTemplate>>> original) {
+        HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
+        Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
+        if (builders != null && builders.containsKey(instance.getVersionKey())) {
+            types.putAll(
+              builders
+                .get(instance.getVersionKey())
+                .buildBlockEntities()
+            );
+        }
+        return types;
+    }
+}

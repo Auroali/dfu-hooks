@@ -1,0 +1,4 @@
+classTweaker v1 named
+transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamerNoNamespace (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
+transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamer (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
+transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamer (Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/UnaryOperator;
