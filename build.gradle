@@ -10,14 +10,25 @@ base {
     archivesName = project.archives_base_name
 }
 
+sourceSets {
+    testmod {
+        compileClasspath += main.compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+    }
+}
+
 loom {
     accessWidenerPath = file("src/main/resources/dfuhooksv2.classtweaker")
     runs {
         testClient {
             inherit client
             configName = "Test Mod Client"
-            source = sourceSets.test
+            source sourceSets.testmod
         }
+    }
+
+    mods.register("dfuhooks-testmod") {
+        sourceSet sourceSets.testmod
     }
 }
 
@@ -34,6 +45,7 @@ dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    testmodImplementation sourceSets.main.output
 }
 
 processResources {
@@ -61,13 +73,6 @@ java {
 jar {
     from("LICENSE") {
         rename { "${it}_${project.base.archivesName.get()}" }
-    }
-}
-
-sourceSets {
-    test {
-        runtimeClasspath += main.runtimeClasspath
-        compileClasspath += main.compileClasspath
     }
 }
 
