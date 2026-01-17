@@ -2,3 +2,25 @@ classTweaker v1 named
 transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamerNoNamespace (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamer (Ljava/util/Map;)Ljava/util/function/UnaryOperator;
 transitive-accessible method net/minecraft/util/datafix/DataFixers createRenamer (Ljava/lang/String;Ljava/lang/String;)Ljava/util/function/UnaryOperator;
+
+# ItemComponentizationFix
+transitive-accessible class net/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBucketedMobData (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixLodestoneTracker (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixFireworkStar (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixFireworkRocket (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixFireworkExplosion (Lcom/mojang/serialization/Dynamic;)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix createFilteredText (Lcom/mojang/serialization/Dynamic;Ljava/lang/String;Ljava/util/Optional;)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBookPages (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixWrittenBook (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixWritableBook (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixPotionContents (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixMapDecorationType (I)Ljava/lang/String;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixMapDecoration (Lcom/mojang/serialization/Dynamic;)Lcom/mojang/datafixers/util/Pair;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixAttributeModifiers (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;I)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBlockStatePredicate (Lcom/mojang/serialization/Dynamic;Ljava/lang/String;)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBlockStatePredicates (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;Ljava/lang/String;Ljava/lang/String;Z)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixEnchantments (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;Ljava/lang/String;Ljava/lang/String;Z)V
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBlockEntityTag (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;Ljava/lang/String;)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixDisplay (Lnet/minecraft/util/datafix/fixes/ItemStackComponentizationFix$ItemStackData;Lcom/mojang/serialization/Dynamic;I)Lcom/mojang/serialization/Dynamic;
+transitive-accessible method net/minecraft/util/datafix/fixes/ItemStackComponentizationFix fixBlockStateTag (Lcom/mojang/serialization/Dynamic;)Lcom/mojang/serialization/Dynamic;
