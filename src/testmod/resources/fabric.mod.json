@@ -13,6 +13,12 @@
   "icon": "assets/dfuhooks/icon.png",
   "environment": "*",
   "entrypoints": {
+    "main": [
+      "com.auroali.dfuhooks.test.DFUHooksTestMod"
+    ],
+    "client": [
+      "com.auroali.dfuhooks.test.DFUHooksTestModClient"
+    ],
     "dfuhooks-init": [
       "com.auroali.dfuhooks.test.SchemaModifyTest"
     ]
@@ -22,6 +28,7 @@
   "depends": {
     "fabricloader": ">=0.18.4",
     "minecraft": ">=1.21.11",
-    "java": ">=21"
+    "java": ">=21",
+    "fabric-transitive-access-wideners-v1": "*"
   }
 }

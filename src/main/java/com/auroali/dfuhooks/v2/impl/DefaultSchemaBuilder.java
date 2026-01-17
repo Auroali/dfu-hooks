@@ -3,19 +3,17 @@ package com.auroali.dfuhooks.v2.impl;
 import com.auroali.dfuhooks.v2.api.SchemaBuilder;
 import com.mojang.datafixers.DataFix;
 import com.mojang.datafixers.schemas.Schema;
-import com.mojang.datafixers.types.templates.TypeTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class DefaultSchemaBuilder implements SchemaBuilder {
-    private final HashMap<String, Supplier<TypeTemplate>> entityTemplates;
-    private final HashMap<String, Supplier<TypeTemplate>> blockEntityTemplates;
+    private final HashMap<String, TypeTemplateFunction> entityTemplates;
+    private final HashMap<String, TypeTemplateFunction> blockEntityTemplates;
     private final List<Function<Schema, DataFix>> fixers;
 
     public DefaultSchemaBuilder() {
@@ -30,14 +28,14 @@ public class DefaultSchemaBuilder implements SchemaBuilder {
     }
 
     @Override
-    public void registerEntity(String id, Supplier<TypeTemplate> template) {
+    public void registerEntity(String id, TypeTemplateFunction template) {
         if (this.entityTemplates.containsKey(id))
             throw new IllegalArgumentException(id + " is already registered as an entity template");
         this.entityTemplates.put(id, template);
     }
 
     @Override
-    public void registerBlockEntity(String id, Supplier<TypeTemplate> template) {
+    public void registerBlockEntity(String id, TypeTemplateFunction template) {
         if (this.blockEntityTemplates.containsKey(id))
             throw new IllegalArgumentException(id + " is already registered as a block entity template");
         this.blockEntityTemplates.put(id, template);
@@ -49,12 +47,12 @@ public class DefaultSchemaBuilder implements SchemaBuilder {
     }
 
     @Override
-    public Map<String, Supplier<TypeTemplate>> buildEntities() {
+    public Map<String, TypeTemplateFunction> buildEntities() {
         return this.entityTemplates;
     }
 
     @Override
-    public Map<String, Supplier<TypeTemplate>> buildBlockEntities() {
+    public Map<String, TypeTemplateFunction> buildBlockEntities() {
         return this.blockEntityTemplates;
     }
 }

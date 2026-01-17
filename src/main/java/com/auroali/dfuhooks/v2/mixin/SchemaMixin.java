@@ -20,11 +20,12 @@ public class SchemaMixin {
         HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
         Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
         if (builders != null && builders.containsKey(instance.getVersionKey())) {
-            types.putAll(
-              builders
-                .get(instance.getVersionKey())
-                .buildEntities()
-            );
+            builders
+              .get(instance.getVersionKey())
+              .buildEntities()
+              .forEach((id, func) ->
+                types.put(id, () -> func.accept(schema))
+              );
         }
         return types;
     }
@@ -34,11 +35,12 @@ public class SchemaMixin {
         HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
         Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
         if (builders != null && builders.containsKey(instance.getVersionKey())) {
-            types.putAll(
-              builders
-                .get(instance.getVersionKey())
-                .buildBlockEntities()
-            );
+            builders
+              .get(instance.getVersionKey())
+              .buildBlockEntities()
+              .forEach((id, func) ->
+                types.put(id, () -> func.accept(schema))
+              );
         }
         return types;
     }

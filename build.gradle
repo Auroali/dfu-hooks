@@ -46,6 +46,9 @@ dependencies {
     mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     testmodImplementation sourceSets.main.output
+    // used for the test mod
+    modImplementation fabricApi.module("fabric-transitive-access-wideners-v1", project.fabric_api_version)
+    modImplementation fabricApi.module("fabric-registry-sync-v0", project.fabric_api_version)
 }
 
 processResources {

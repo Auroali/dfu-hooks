@@ -5,6 +5,7 @@ import com.auroali.dfuhooks.v2.api.SchemaBuilder;
 import com.auroali.dfuhooks.v2.impl.DFUHooks;
 import com.auroali.dfuhooks.v2.impl.DataFixerBuilderExt;
 import com.auroali.dfuhooks.v2.impl.DefaultSchemaBuilder;
+import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.DataFixerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.datafix.DataFixers;
@@ -27,10 +28,12 @@ public class DataFixersMixin {
           "dfuhooks-init",
           ModDFUInitializer.class,
           init -> {
-              init.init();
-              init.getInitializers().forEach((version, schemaInit) -> {
-                  SchemaBuilder builder = DFUHooks.BUILDERS.get().computeIfAbsent(version, k -> new DefaultSchemaBuilder());
-                  schemaInit.initSchemaBuilder(builder);
+              init.init((version, subversion, consumer) -> {
+                  SchemaBuilder builder = DFUHooks.BUILDERS.get().computeIfAbsent(
+                    DataFixUtils.makeKey(version, subversion),
+                    k -> new DefaultSchemaBuilder()
+                  );
+                  consumer.acceptSchemaBuilder(builder);
               });
           }
         );
