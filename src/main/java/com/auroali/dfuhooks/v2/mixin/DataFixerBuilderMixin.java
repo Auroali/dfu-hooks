@@ -6,6 +6,7 @@ import com.auroali.dfuhooks.v2.impl.DataFixerBuilderExt;
 import com.mojang.datafixers.DataFix;
 import com.mojang.datafixers.DataFixerBuilder;
 import com.mojang.datafixers.schemas.Schema;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -15,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 
+@ApiStatus.Internal
 @Mixin(DataFixerBuilder.class)
 public abstract class DataFixerBuilderMixin implements DataFixerBuilderExt {
     @Shadow

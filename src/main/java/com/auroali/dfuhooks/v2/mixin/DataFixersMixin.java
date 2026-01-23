@@ -9,6 +9,7 @@ import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.DataFixerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.datafix.DataFixers;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.HashMap;
 
+@ApiStatus.Internal
 @Mixin(DataFixers.class)
 public class DataFixersMixin {
     @Inject(method = "addFixers", at = @At("HEAD"))

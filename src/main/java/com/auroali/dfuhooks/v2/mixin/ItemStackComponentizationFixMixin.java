@@ -5,11 +5,13 @@ import com.auroali.dfuhooks.v2.impl.DFUHooks;
 import com.mojang.serialization.Dynamic;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.datafix.fixes.ItemStackComponentizationFix;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@ApiStatus.Internal
 @Mixin(ItemStackComponentizationFix.class)
 public class ItemStackComponentizationFixMixin {
     @Inject(method = "fixItemStack", at = @At("RETURN"))

@@ -3,6 +3,7 @@ package com.auroali.dfuhooks.v2.impl;
 import com.auroali.dfuhooks.v2.api.SchemaBuilder;
 import com.mojang.datafixers.DataFix;
 import com.mojang.datafixers.schemas.Schema;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+@ApiStatus.Internal
 public class DefaultSchemaBuilder implements SchemaBuilder {
     private final HashMap<String, TypeTemplateFunction> entityTemplates;
     private final HashMap<String, TypeTemplateFunction> blockEntityTemplates;

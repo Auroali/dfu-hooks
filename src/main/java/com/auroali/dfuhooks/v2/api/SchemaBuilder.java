@@ -47,7 +47,6 @@ public interface SchemaBuilder {
      *      (name, schema) -> DSL.optionalFields("TestItem", References.ITEM_STACK.in(schema))
      * );
      * }</pre>
-     * </p>
      *
      * @param id       the id of the entity, in {@link Identifier}'s string format
      * @param template a functional interface that takes a {@link Schema} and returns a {@link TypeTemplate}
@@ -82,7 +81,6 @@ public interface SchemaBuilder {
      *      (name, schema) -> DSL.optionalFields("TestItem", References.ITEM_STACK.in(schema))
      * );
      * }</pre>
-     * </p>
      *
      * @param id       the id of the block entity, in {@link Identifier}'s string format
      * @param template a functional interface that takes a {@link Schema} and returns a {@link TypeTemplate}

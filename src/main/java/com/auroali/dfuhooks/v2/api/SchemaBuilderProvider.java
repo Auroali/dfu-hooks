@@ -1,5 +1,7 @@
 package com.auroali.dfuhooks.v2.api;
 
+import org.jetbrains.annotations.ApiStatus;
+
 /**
  * Provides methods to initialize SchemaBuilders during
  * DFU setup
@@ -7,6 +9,7 @@ package com.auroali.dfuhooks.v2.api;
  * @author Auroali
  * @since 2.0.0
  */
+@ApiStatus.NonExtendable
 @FunctionalInterface
 public interface SchemaBuilderProvider {
     void createOrModifySchemaBuilder(int version, int subversion, SchemaBuilderConsumer consumer);

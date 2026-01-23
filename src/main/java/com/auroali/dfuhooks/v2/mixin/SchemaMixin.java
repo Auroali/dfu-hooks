@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.templates.TypeTemplate;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@ApiStatus.Internal
 @Mixin(Schema.class)
 public class SchemaMixin {
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/schemas/Schema;registerEntities(Lcom/mojang/datafixers/schemas/Schema;)Ljava/util/Map;"))
