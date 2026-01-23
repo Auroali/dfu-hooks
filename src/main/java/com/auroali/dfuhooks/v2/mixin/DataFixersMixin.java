@@ -39,10 +39,15 @@ public class DataFixersMixin {
               });
           }
         );
+        DFUHooks.LOGGER.debug("Initialized {} builders from {} entrypoints",
+          DFUHooks.BUILDERS.get().size(),
+          FabricLoader.getInstance().getEntrypointContainers("dfuhooks-init", ModDFUInitializer.class).size()
+        );
     }
 
     @Inject(method = "addFixers", at = @At("RETURN"))
     private static void dfuhooks$cleanupBuilders(DataFixerBuilder dataFixerBuilder, CallbackInfo ci) {
         DFUHooks.BUILDERS.remove();
+        DFUHooks.LOGGER.debug("Successfully cleared builder map");
     }
 }

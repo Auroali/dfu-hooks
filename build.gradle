@@ -51,7 +51,8 @@ dependencies {
     modImplementation fabricApi.module("fabric-registry-sync-v0", project.fabric_api_version)
 }
 
-processResources {
+
+tasks.withType(ProcessResources).configureEach {
     inputs.property "version", project.version
 
     filesMatching("fabric.mod.json") {
