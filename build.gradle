@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
     id 'maven-publish'
 }
 
@@ -43,12 +43,11 @@ repositories {
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     testmodImplementation sourceSets.main.output
     // used for the test mod
-    modImplementation fabricApi.module("fabric-transitive-access-wideners-v1", project.fabric_api_version)
-    modImplementation fabricApi.module("fabric-registry-sync-v0", project.fabric_api_version)
+    implementation fabricApi.module("fabric-transitive-access-wideners-v1", project.fabric_api_version)
+    testmodImplementation fabricApi.module("fabric-registry-sync-v0", project.fabric_api_version)
 }
 
 
@@ -61,7 +60,7 @@ tasks.withType(ProcessResources).configureEach {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
 }
 
 java {
@@ -71,8 +70,8 @@ java {
     withSourcesJar()
     withJavadocJar()
 
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 jar {
