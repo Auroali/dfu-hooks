@@ -1,6 +1,7 @@
 package com.auroali.dfuhooks.test;
 
 import com.auroali.dfuhooks.v2.api.ModDFUInitializer;
+import com.auroali.dfuhooks.v2.api.SchemaBuilder;
 import com.auroali.dfuhooks.v2.api.SchemaBuilderProvider;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.DSL;
@@ -30,9 +31,18 @@ public class SchemaModifyTest extends ModDFUInitializer {
         );
 
         provider.createOrModifySchemaBuilder(4661, builder -> {
-            builder.registerEntity(
+            builder.registerForTarget(
+              SchemaBuilder.Target.ENTITY,
               Identifier.fromNamespaceAndPath("dfuhooks-test", "test"),
               schema -> DSL.optionalFields("additional_items", References.ITEM_STACK.in(schema))
+            );
+
+            builder.registerExtension(
+              SchemaBuilder.Target.ENTITY,
+              "minecraft:skeleton",
+              schema -> DSL.optional(
+                DSL.field("test", DSL.list(References.ITEM_STACK.in(schema)))
+              )
             );
         });
     }

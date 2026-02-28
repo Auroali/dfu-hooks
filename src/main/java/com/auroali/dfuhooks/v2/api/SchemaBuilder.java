@@ -29,343 +29,176 @@ public interface SchemaBuilder {
     void addFixer(Function<Schema, DataFix> fix);
 
     /**
-     * Registers a new entity definition
-     *
+     * Registers a new type template definition for the given id and target
      * <p>
      * Example:
      * <pre>{@code
      * SchemaBuilder builder = ...
      * // registers an entity definition that just passes data through via DSL::remainder
      * // equivalent to registerSimple
-     * builder.registerEntity(
+     * builder.registerForTarget(
+     *      Target.ENTITY,
      *      "foo:bar",
      *      (name, schema) -> DSL::remainder
      * );
-     * // registers an entity definition that specifies an optional item stack field
-     * builder.registerEntity(
+     * // registers a block entity definition that specifies an optional item stack field
+     * builder.registerForTarget(
+     *      Target.BLOCK_ENTITY,
      *      "foo:bar",
      *      (name, schema) -> DSL.optionalFields("TestItem", References.ITEM_STACK.in(schema))
      * );
      * }</pre>
      *
-     * @param id       the id of the entity, in {@link Identifier}'s string format
-     * @param template a functional interface that takes a {@link Schema} and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target
+     * @param template the type template function
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    void registerEntity(String id, TypeTemplateFunction template);
+    void registerForTarget(Target target, String id, TypeTemplateFunction template);
 
     /**
-     * Registers a new block entity definition
+     * Similar to {@link SchemaBuilder#registerForTarget(Target, String, TypeTemplateFunction)},
+     * but the supplied type template is instead added to an existing type using {@link DSL#allWithRemainder(TypeTemplate, TypeTemplate...)}
      *
-     * <p>
-     * Example:
-     * <pre>{@code
-     * SchemaBuilder builder = ...
-     * // registers an entity definition that just passes data through via DSL::remainder
-     * // equivalent to registerSimple
-     * builder.registerEntity(
-     *      "foo:bar",
-     *      (name, schema) -> DSL::remainder
-     * );
-     * // registers an entity definition that specifies an optional item stack field
-     * builder.registerEntity(
-     *      "foo:bar",
-     *      (name, schema) -> DSL.optionalFields("TestItem", References.ITEM_STACK.in(schema))
-     * );
-     * }</pre>
-     *
-     * @param id       the id of the block entity, in {@link Identifier}'s string format
-     * @param template a functional interface that takes a {@link Schema} and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target
+     * @param template the type template function
      * @see DSL
      * @since 2.0.0
      */
-    void registerBlockEntity(String id, TypeTemplateFunction template);
+    void registerExtension(Target target, String id, TypeTemplateFunction template);
 
     Stream<DataFix> buildFixers(Schema schema);
 
-    Map<String, TypeTemplateFunction> buildEntities();
-
-    Map<String, TypeTemplateFunction> buildBlockEntities();
+    Map<String, Supplier<TypeTemplate>> buildForTarget(Target target, Schema schema, Map<String, Supplier<TypeTemplate>> existingTypes);
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id       the id of the entity, in {@link Identifier}'s string format
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target, in {@link Identifier}'s string format
      * @param template a function that takes the id as a string and a {@link Schema}, and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    default void registerEntity(String id, BiFunction<String, Schema, TypeTemplate> template) {
-        this.registerEntity(id, (schema) -> template.apply(id, schema));
+    default void registerForTarget(Target target, String id, BiFunction<String, Schema, TypeTemplate> template) {
+        this.registerForTarget(target, id, (schema) -> template.apply(id, schema));
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id       the id of the entity, in {@link Identifier}'s string format
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target, in {@link Identifier}'s string format
      * @param template a supplier for the type template of the entity
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, Identifier, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    default void registerEntity(String id, Supplier<TypeTemplate> template) {
-        this.registerEntity(id, (schema) -> template.get());
+    default void registerForTarget(Target target, String id, Supplier<TypeTemplate> template) {
+        this.registerForTarget(target, id, (schema) -> template.get());
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id       the id of the entity
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target
      * @param template a supplier for the type template of the entity
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @see SchemaBuilder#registerForTarget(Target, String, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    default void registerEntity(Identifier id, TypeTemplateFunction template) {
-        this.registerEntity(id.toString(), template);
+    default void registerForTarget(Target target, Identifier id, TypeTemplateFunction template) {
+        this.registerForTarget(target, id.toString(), template);
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id       the id of the entity
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target
      * @param template a function that takes the id as a string and a {@link Schema}, and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @see SchemaBuilder#registerForTarget(Target, String, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    default void registerEntity(Identifier id, BiFunction<String, Schema, TypeTemplate> template) {
-        this.registerEntity(id.toString(), template);
+    default void registerForTarget(Target target, Identifier id, BiFunction<String, Schema, TypeTemplate> template) {
+        this.registerForTarget(target, id.toString(), template);
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id       the id of the entity
+     * @param target   the target, either an entity or block entity
+     * @param id       the id of the entry for the given target
      * @param template a supplier for the type template of the entity
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
+     * @see SchemaBuilder#registerForTarget(Target, String, TypeTemplateFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, BiFunction)
+     * @see SchemaBuilder#registerForTarget(Target, String, Supplier)
      * @see DSL
      * @since 2.0.0
      */
-    default void registerEntity(Identifier id, Supplier<TypeTemplate> template) {
-        this.registerEntity(id.toString(), template);
+    default void registerForTarget(Target target, Identifier id, Supplier<TypeTemplate> template) {
+        this.registerForTarget(target, id.toString(), template);
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id the id of the entity, in {@link Identifier}'s string format
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(Identifier)
-     * @see DSL
+     * @param target the target, either an entity or block entity
+     * @param id     the id of the entry for the given target, in {@link Identifier}'s string format
+     * @see SchemaBuilder#registerForTargetSimple(Target, Identifier)
      * @since 2.0.0
      */
-    default void registerEntitySimple(String id) {
-        this.registerEntity(id, DSL::remainder);
+    default void registerForTargetSimple(Target target, String id) {
+        this.registerForTarget(target, id, DSL::remainder);
     }
 
     /**
-     * Registers a new entity definition
+     * Registers a new type template definition for the given id and target
      *
-     * @param id the id of the entity
-     * @see SchemaBuilder#registerEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(String, BiFunction)
-     * @see SchemaBuilder#registerEntity(String, Supplier)
-     * @see SchemaBuilder#registerEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerEntitySimple(String)
-     * @see DSL
+     * @param target the target, either an entity or block entity
+     * @param id     the id of the entry for the given target
+     * @see SchemaBuilder#registerForTargetSimple(Target, String)
      * @since 2.0.0
      */
-    default void registerEntitySimple(Identifier id) {
-        this.registerEntitySimple(id.toString());
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id       the id of the block entity, in {@link Identifier}'s string format
-     * @param template a function that takes the id as a string and a {@link Schema}, and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntity(String id, BiFunction<String, Schema, TypeTemplate> template) {
-        this.registerBlockEntity(id, (schema) -> template.apply(id, schema));
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id       the id of the block entity, in {@link Identifier}'s string format
-     * @param template a supplier for the type template of the block entity
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntity(String id, Supplier<TypeTemplate> template) {
-        this.registerBlockEntity(id, (schema) -> template.get());
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id       the id of the block entity
-     * @param template a supplier for the type template of the block entity
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntity(Identifier id, TypeTemplateFunction template) {
-        this.registerBlockEntity(id.toString(), template);
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id       the id of the block entity
-     * @param template a function that takes the id as a string and a {@link Schema}, and returns a {@link TypeTemplate}
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntity(Identifier id, BiFunction<String, Schema, TypeTemplate> template) {
-        this.registerBlockEntity(id.toString(), template);
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id       the id of the block entity
-     * @param template a supplier for the type template of the block entity
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntity(Identifier id, Supplier<TypeTemplate> template) {
-        this.registerBlockEntity(id.toString(), template);
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id the id of the block entity
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(Identifier)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntitySimple(String id) {
-        this.registerBlockEntity(id, DSL::remainder);
-    }
-
-    /**
-     * Registers a new block entity definition
-     *
-     * @param id the id of the block entity
-     * @see SchemaBuilder#registerBlockEntity(String, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(String, Supplier)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, TypeTemplateFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, BiFunction)
-     * @see SchemaBuilder#registerBlockEntity(Identifier, Supplier)
-     * @see SchemaBuilder#registerBlockEntitySimple(String)
-     * @see DSL
-     * @since 2.0.0
-     */
-    default void registerBlockEntitySimple(Identifier id) {
-        this.registerBlockEntitySimple(id.toString());
+    default void registerForTargetSimple(Target target, Identifier id) {
+        this.registerForTargetSimple(target, id.toString());
     }
 
     @FunctionalInterface
     interface TypeTemplateFunction {
         TypeTemplate accept(Schema schema);
+    }
+
+    enum Target {
+        ENTITY,
+        BLOCK_ENTITY;
+
+        public boolean checkId(String id) {
+            return id.indexOf(Identifier.NAMESPACE_SEPARATOR) != -1 && Identifier.tryParse(id) != null;
+        }
+
+        public boolean canRegisterType() {
+            return true;
+        }
+
+        public boolean canRegisterExtension() {
+            return true;
+        }
     }
 }

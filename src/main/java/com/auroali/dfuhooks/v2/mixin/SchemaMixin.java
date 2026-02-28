@@ -18,23 +18,25 @@ import java.util.function.Supplier;
 
 @ApiStatus.Internal
 @Mixin(Schema.class)
-public class SchemaMixin {
+public abstract class SchemaMixin {
     @Shadow
     @Final
     private int versionKey;
+
+    @Shadow
+    protected abstract TypeTemplate getTemplate(String name);
+
+    @Shadow
+    public abstract int getVersionKey();
 
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lcom/mojang/datafixers/schemas/Schema;registerEntities(Lcom/mojang/datafixers/schemas/Schema;)Ljava/util/Map;"))
     public Map<String, Supplier<TypeTemplate>> dfuhooks$registerEntities(Schema instance, Schema schema, Operation<Map<String, Supplier<TypeTemplate>>> original) {
         HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
         Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
         if (builders != null && builders.containsKey(instance.getVersionKey())) {
-            builders
+            return builders
               .get(instance.getVersionKey())
-              .buildEntities()
-              .forEach((id, func) -> {
-                  types.put(id, () -> func.accept(schema));
-                  DFUHooks.LOGGER.debug("Registered entity {} in schema {}", id, this.versionKey);
-              });
+              .buildForTarget(SchemaBuilder.Target.ENTITY, (Schema) (Object) this, types);
         }
         return types;
     }
@@ -44,13 +46,9 @@ public class SchemaMixin {
         HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
         Map<String, Supplier<TypeTemplate>> types = original.call(instance, schema);
         if (builders != null && builders.containsKey(instance.getVersionKey())) {
-            builders
+            return builders
               .get(instance.getVersionKey())
-              .buildBlockEntities()
-              .forEach((id, func) -> {
-                  types.put(id, () -> func.accept(schema));
-                  DFUHooks.LOGGER.debug("Registered block entity {} in schema {}", id, this.versionKey);
-              });
+              .buildForTarget(SchemaBuilder.Target.BLOCK_ENTITY, (Schema) (Object) this, types);
         }
         return types;
     }
