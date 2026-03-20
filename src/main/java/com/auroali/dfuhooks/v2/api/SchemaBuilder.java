@@ -5,6 +5,7 @@ import com.mojang.datafixers.DataFix;
 import com.mojang.datafixers.schemas.Schema;
 import com.mojang.datafixers.types.templates.TypeTemplate;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -21,12 +22,12 @@ import java.util.stream.Stream;
  */
 public interface SchemaBuilder {
     /**
-     * Adds a new fixer to the schema
+     * Adds a new data fixer to the schema
      *
      * @param fix a function taking a {@link Schema} instance and returning a {@link DataFix}
      * @since 2.0.0
      */
-    void addFixer(Function<Schema, DataFix> fix);
+    void addDataFixer(Function<Schema, DataFix> fix);
 
     /**
      * Registers a new type template definition for the given id and target
@@ -72,8 +73,10 @@ public interface SchemaBuilder {
      */
     void registerExtension(Target target, String id, TypeTemplateFunction template);
 
-    Stream<DataFix> buildFixers(Schema schema);
+    @ApiStatus.Internal
+    Stream<DataFix> buildDataFixers(Schema schema);
 
+    @ApiStatus.Internal
     Map<String, Supplier<TypeTemplate>> buildForTarget(Target target, Schema schema, Map<String, Supplier<TypeTemplate>> existingTypes);
 
     /**

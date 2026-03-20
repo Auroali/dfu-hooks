@@ -31,7 +31,7 @@ public class DefaultSchemaBuilder implements SchemaBuilder {
     }
 
     @Override
-    public void addFixer(Function<Schema, DataFix> fix) {
+    public void addDataFixer(Function<Schema, DataFix> fix) {
         this.fixers.add(fix);
     }
 
@@ -60,7 +60,7 @@ public class DefaultSchemaBuilder implements SchemaBuilder {
     }
 
     @Override
-    public Stream<DataFix> buildFixers(Schema schema) {
+    public Stream<DataFix> buildDataFixers(Schema schema) {
         return this.fixers.stream().map(builder -> builder.apply(schema));
     }
 

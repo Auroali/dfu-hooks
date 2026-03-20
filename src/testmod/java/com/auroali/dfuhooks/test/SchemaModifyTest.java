@@ -16,7 +16,7 @@ public class SchemaModifyTest extends ModDFUInitializer {
         provider.createOrModifySchemaBuilder(
           3818, 5,
           builder -> {
-              builder.addFixer(schema ->
+              builder.addDataFixer(schema ->
                 ItemRenameFix.create(
                   schema,
                   "DFU Hooks Example Item Fix",

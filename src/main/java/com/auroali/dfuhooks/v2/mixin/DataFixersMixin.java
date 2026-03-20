@@ -9,6 +9,7 @@ import com.mojang.datafixers.DataFixUtils;
 import com.mojang.datafixers.DataFixerBuilder;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.datafix.DataFixers;
+import net.minecraft.util.filefix.FileFixerUpper;
 import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,8 +22,8 @@ import java.util.HashMap;
 @Mixin(DataFixers.class)
 public class DataFixersMixin {
     @Inject(method = "addFixers", at = @At("HEAD"))
-    private static void dfuhooks$setupBuilders(DataFixerBuilder dataFixerBuilder, CallbackInfo ci) {
-        if (dataFixerBuilder instanceof DataFixerBuilderExt ext)
+    private static void dfuhooks$setupBuilders(DataFixerBuilder fixerUpper, FileFixerUpper.Builder fileFixerUpper, CallbackInfo ci) {
+        if (fixerUpper instanceof DataFixerBuilderExt ext)
             ext.dfuhooks$setVanilla();
 
         DFUHooks.BUILDERS.set(new HashMap<>());
@@ -46,7 +47,7 @@ public class DataFixersMixin {
     }
 
     @Inject(method = "addFixers", at = @At("RETURN"))
-    private static void dfuhooks$cleanupBuilders(DataFixerBuilder dataFixerBuilder, CallbackInfo ci) {
+    private static void dfuhooks$cleanupBuilders(DataFixerBuilder fixerUpper, FileFixerUpper.Builder fileFixerUpper, CallbackInfo ci) {
         DFUHooks.BUILDERS.remove();
         DFUHooks.LOGGER.debug("Successfully cleared builder map");
     }

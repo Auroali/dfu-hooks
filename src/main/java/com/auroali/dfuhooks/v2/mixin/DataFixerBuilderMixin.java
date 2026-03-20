@@ -42,7 +42,7 @@ public abstract class DataFixerBuilderMixin implements DataFixerBuilderExt {
         HashMap<Integer, SchemaBuilder> builders = DFUHooks.BUILDERS.get();
         if (builders != null && builders.containsKey(schema.getVersionKey())) {
             builders.get(schema.getVersionKey())
-              .buildFixers(schema)
+              .buildDataFixers(schema)
               .forEach(this::addFixer);
         }
     }
